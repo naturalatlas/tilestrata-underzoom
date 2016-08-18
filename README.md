@@ -9,9 +9,9 @@ A [TileStrata](https://github.com/naturalatlas/tilestrata) plugin for building t
 $ npm install tilestrata-underzoom --save
 ```
 
-<img src="./data/a.png" width="128" />
-<img src="./out/out.png" width="128" />
-<img src="./out/out2.png" width="128" />
+<img src="./test/data/a.png" width="128" />
+<img src="./test/fixtures/out.png" width="128" />
+<img src="./test/fixtures/out2.png" width="128" />
 
 ### Sample Usage
 
@@ -20,14 +20,14 @@ var dependency = require('tilestrata-dependency');
 var underzoom = require('tilestrata-underzoom');
 
 server.layer('mylayer').route('t.png')
-    .use(underzoom({
-			source: dependency('sourcelayer', 't.png'),
-			size: 256,
-			zooms: {
-				12: 2, // underzoom z12 by 2 levels
-				13: 1, // underzoom z12 by 1 level
-			}
-		}));
+	.use(underzoom({
+		source: dependency('sourcelayer', 't.png'),
+		size: 256,
+		zooms: {
+			12: 2, // underzoom z12 by 2 levels
+			13: 1, // underzoom z12 by 1 level
+		}
+	}));
 ```
 
 ## Contributing

@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var async = require('async');
-var sharp = require('sharp');
 var Mapnik = require('mapnik');
 var tilebelt = require('tilebelt');
 
