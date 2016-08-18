@@ -1,0 +1,38 @@
+{
+  "name": "tilestrata-underzoom",
+  "version": "0.0.0",
+  "description": "A TileStrata plugin for composing a mosaic of higher-zoom tiles.",
+  "author": "Brian Reavis <brian@naturalatlas.com>",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R tap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naturalatlas/tilestrata-underzoom.git"
+  },
+  "keywords": [
+    "tilestrata",
+    "tilestrata-plugin",
+    "tilestrata-provider",
+    "underzoom"
+  ],
+  "bugs": {
+    "url": "https://github.com/naturalatlas/tilestrata-underzoom/issues"
+  },
+  "homepage": "https://github.com/naturalatlas/tilestrata-underzoom",
+  "dependencies": {
+    "async": "^2.0.1",
+    "lodash": "^4.15.0",
+    "tilebelt": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  },
+  "peerDependencies": {
+    "tilestrata": "*",
+    "mapnik": "*"
+  }
+}
