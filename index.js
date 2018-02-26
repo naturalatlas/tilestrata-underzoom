@@ -22,23 +22,28 @@ module.exports = function(options) {
 	options = options || {};
 
 	_.defaults(options, {
-		size: 256,
+		inputSize: 256,
+		outputSize: 256,
 		format: 'png',
 		scaling: 'lanczos',
 		source: null,
 		matte: null,
 	});
 
+	if (options.size) {
+		options.inputSize = options.outputSize = options.size;
+	}
+
 	return {
 		name: 'underzoom',
 		serve: function(server, req, callback) {
-			var underzoomLevels = options.zooms[req.z];
+			var underzoomLevels = (typeof options.zooms === 'number') ? options.zooms : options.zooms[req.z];
 			if (!underzoomLevels) {
 				return options.source.serve(server, req, callback);
 			}
 
 			var tiles, result, images, matte;
-			var canvasSize = options.size * Math.pow(2, underzoomLevels);
+			var canvasSize = options.inputSize * Math.pow(2, underzoomLevels);
 			var canvas = new Mapnik.Image(canvasSize, canvasSize);
 
 			async.series([
@@ -53,8 +58,8 @@ module.exports = function(options) {
 					var coordList = getTileCoords(req.x, req.y, req.z, underzoomLevels);
 					var originCoords = coordList[0];
 					async.each(coordList, function(coords, callback) {
-						var x = (coords[0] - originCoords[0]) * options.size;
-						var y = (coords[1] - originCoords[1]) * options.size;
+						var x = (coords[0] - originCoords[0]) * options.inputSize;
+						var y = (coords[1] - originCoords[1]) * options.inputSize;
 						var childReq = req.clone();
 						childReq.x = coords[0];
 						childReq.y = coords[1];
@@ -80,13 +85,13 @@ module.exports = function(options) {
 				}
 			], function(err) {
 				if (err) return callback(err);
-				canvas.resize(options.size, options.size, {scaling_method: Mapnik.imageScaling[options.scaling]}, function(err, canvas) {
+				canvas.resize(options.outputSize, options.outputSize, {scaling_method: Mapnik.imageScaling[options.scaling]}, function(err, canvas) {
 					if (err) return callback(err);
 					canvas.demultiply(function(err) {
 						if (err) return callback(err);
 						canvas.encode(options.format, function(err, buffer) {
 							if (err) return callback(err);
-							callback(null, buffer, {'Content-Type': 'image/png'});
+							callback(null, buffer, {'Content-Type': 'image/' + options.format});
 						});
 					});
 				});

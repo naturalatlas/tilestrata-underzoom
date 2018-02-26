@@ -28,6 +28,15 @@ server.layer('mylayer').route('t.png')
 			13: 1, // underzoom z12 by 1 level
 		}
 	}));
+
+// make 2x tiles by mosaicing 1x tiles from the next zoom
+server.layer('mylayer').route('t@2x.png')
+	.use(underzoom({
+		source: dependency('sourcelayer', 't.png'),
+		inputSize: 256,
+		outputSize: 512,
+		zooms: 1 // underzoom all zoom levels by 1 level
+	}));
 ```
 
 ## Contributing
