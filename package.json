@@ -1,6 +1,6 @@
 {
   "name": "tilestrata-underzoom",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A TileStrata plugin for composing a mosaic of higher-zoom tiles.",
   "author": "Brian Reavis <brian@naturalatlas.com>",
   "license": "Apache-2.0",
