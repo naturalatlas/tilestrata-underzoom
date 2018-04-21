@@ -28,6 +28,7 @@ module.exports = function(options) {
 		scaling: 'lanczos',
 		source: null,
 		matte: null,
+		errorOnTileNotFound: false
 	});
 
 	if (options.size) {
@@ -66,10 +67,10 @@ module.exports = function(options) {
 						childReq.z = coords[2];
 						options.source.serve(server, childReq, function(err, childBuffer, childHeaders) {
 							if (err && (err.statusCode !== 404 && err.statusCode !== 403)) return callback(err);
-							if (err && (err.statusCode === 404 || err.statusCode === 403)) return callback();
+							if (err && (err.statusCode === 404 || err.statusCode === 403)) return callback(options.errorOnTileNotFound ? err : null);
 							if (!childBuffer) return callback();
 							Mapnik.Image.fromBytes(childBuffer, function(err, image) {
-								if (err) return callback(); // ignore and treat as transparent
+								if (err) return callback(options.errorOnTileNotFound ? err : null); // ignore and treat as transparent
 								image.premultiply(function(err) {
 									if (err) return callback(err);
 									canvas.composite(image, {
